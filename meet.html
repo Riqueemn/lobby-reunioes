@@ -1,0 +1,34 @@
+<html>
+
+    <head>
+        <link rel="stylesheet" href="styles.css">
+    </head>
+
+    <body allow="camera; microphone; fullscreen">
+
+        <div id="meet"></div>
+
+        <script src='https://meet.jit.si/external_api.js'></script>
+            
+        </script>
+
+        <script>
+            const domain = 'meet.jit.si';
+            const options = {
+                roomName: 'Lobby',
+                width: 700,
+                height: 700,
+                parentNode: document.querySelector('#meet'),
+                lang: 'pt-br'
+            };
+            api = new JitsiMeetExternalAPI(domain);
+
+           // var test_function = function(object) {confirm("Deu certo")};
+
+           // api.addListener("raiseHandUpdated", test_function);
+
+        </script>
+
+
+    </body>
+</html>
