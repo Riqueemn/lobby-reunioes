@@ -7,11 +7,19 @@
     <body>
 
         <div class="lobby" >
-            <a id="button-1" class="buttons" href="#">Lobby 1</a>
-            <a id="button-2" class="buttons" href="#">Lobby 2</a>
-            <a id="button-3" class="buttons" href="#">Lobby 3</a>
-            <a id="button-4" class="buttons" href="#">Lobby 4</a>
+            <a id="lobby-1" class="buttons" href="https://meet.jit.si/Lobb" target="_blank">Lobby 1</a>
+            <a id="lobby-2" class="buttons" href="https://meet.jit.si/Lobb">Lobby 2</a>
+            <a id="lobby-3" class="buttons" href="https://meet.jit.si/Lobb">Lobby 3</a>
+            <a id="lobby-4" class="buttons" href="https://meet.jit.si/Lobb">Lobby 4</a>
         </div>
+
+        <script>
+            let request = new XMLHttpRequest()
+            request.open("GET", "http://localhost/service-meet/", false);
+            request.setRequestHeader("Content-type", "application/json");
+            request.send();
+            confirm(request.responseText);
+        </script>
 
     </body>
 </html>

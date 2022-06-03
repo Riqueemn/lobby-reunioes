@@ -9,8 +9,22 @@
         <div id="meet"></div>
 
         <script src='https://meet.jit.si/external_api.js'></script>
+
+        <script>
+            let request = new XMLHttpRequest()
+            request.open("POST", "http://localhost/service-meet/", true);
+            request.setRequestHeader("Content-type", "application/json");
+            request.send(JSON.stringify({botao: 'ativo'}));
+            request.onload = function(){
+                confirm(this.responseText);
+            }
+
+            var data = JSON.stringify({veiculo: 'carro'});
+            console.log(data);
+
             
         </script>
+
 
         <script>
             const domain = 'meet.jit.si';
@@ -21,11 +35,15 @@
                 parentNode: document.querySelector('#meet'),
                 lang: 'pt-br'
             };
-            api = new JitsiMeetExternalAPI(domain);
+            api = new JitsiMeetExternalAPI(domain, options);
 
-           // var test_function = function(object) {confirm("Deu certo")};
+           var test_function = function(object) {
+               confirm("Notification");
+               console.log("Objeto:");
+               console.log(object)
+            };
 
-           // api.addListener("raiseHandUpdated", test_function);
+           api.addListener("participantJoined", test_function);
 
         </script>
 
