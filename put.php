@@ -1,13 +1,9 @@
 <?php
 
-$json = file_get_contents('php://input');
-$obj = json_decode($json, true);
+$json = file_get_contents("php://input");
+$bytes = file_put_contents("data.json", $json);
 
-
-$pEstado = $obj['botao'];
-
-echo $pEstado;
-
+echo $bytes;
 
 
 

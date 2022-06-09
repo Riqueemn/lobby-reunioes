@@ -1,0 +1,77 @@
+<html>
+
+    <head>
+        <link rel="stylesheet" href="../styles/styles.css">
+    </head>
+
+    <body>
+
+        <div class="lobby">
+            <a id="lobby-1" class="buttonsM" href="../suporte/m1.html" target="_blank">Lobby 1</a>
+            <a id="lobby-2" class="buttonsM">Lobby 2</a>
+            <a id="lobby-3" class="buttonsM">Lobby 3</a>
+            <a id="lobby-4" class="buttonsM">Lobby 4</a>
+        </div>
+
+        <script>
+            setInterval(teste, 2000);
+            function teste(){
+                let request = new XMLHttpRequest()
+                request.open("GET", "http://localhost/lobby-reunioes/get.php", false);
+                request.setRequestHeader("Content-type", "application/json");
+                request.send();
+                var responseData = request.responseText.split(",");
+
+                ///////  Disponível /////////////
+                
+                if(responseData[0] == "Disponivel"){
+                    document.getElementById("lobby-1").style.background = "#95a5a6";
+                    //document.getElementById("lobby-1").removeAttribute("href");
+                }
+
+                if(responseData[1] == "Disponivel"){
+                    document.getElementById("lobby-2").style.background = "#95a5a6";
+                    document.getElementById("lobby-1").removeAttribute("href");
+                }
+
+                if(responseData[2] == "Disponivel"){
+                    document.getElementById("lobby-3").style.background = "#95a5a6";
+                    document.getElementById("lobby-1").removeAttribute("href");
+                }
+
+                if(responseData[3] == "Disponivel"){
+                    document.getElementById("lobby-4").style.background = "#95a5a6";
+                    document.getElementById("lobby-1").removeAttribute("href");
+                }
+                
+                //////////////////////////////////////////////////
+
+                ///////  Indisponível /////////////
+
+                if(responseData[0] == "Indisponivel"){
+                    document.getElementById("lobby-1").style.background = "green";
+                    //document.getElementById("lobby-1").setAttribute("href", "");
+                }
+
+                if(responseData[1] == "Indisponivel"){
+                    document.getElementById("lobby-2").style.background = "green";
+                    document.getElementById("lobby-1").setAttribute("href", "");
+                }
+
+                if(responseData[2] == "Indisponivel"){
+                    document.getElementById("lobby-3").style.background = "green";
+                    document.getElementById("lobby-1").setAttribute("href", "");
+                }
+
+                if(responseData[3] == "Indisponivel"){
+                    document.getElementById("lobby-4").style.background = "green";
+                    document.getElementById("lobby-1").setAttribute("href", "");
+                }
+
+                //////////////////////////////////////////////////
+            }
+            
+        </script>
+
+    </body>
+</html>
