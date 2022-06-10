@@ -4,11 +4,11 @@
     <head>
         <title>Cliente</title>
         <meta charset="utf-8">
-        <link rel="stylesheet" href="styles/styles.css">
+        <link rel="stylesheet" href="../styles/styles.css">
     </head>
 
     <body>
-
+        
         <div class="lobby" >
             <a id="lobby-1" class="buttons" target="_blank">Lobby 1</a>
             <a id="lobby-2" class="buttons" target="_blank">Lobby 2</a>
@@ -16,14 +16,13 @@
             <a id="lobby-4" class="buttons" target="_blank">Lobby 4</a>
         </div>
 
+        <script src='../scripts/script-meet.js'></script>
+
         <script>
             setInterval(statusButtons, 1000);
             function statusButtons(){
-                let request = new XMLHttpRequest()
-                request.open("GET", "http://localhost/lobby-reunioes/get.php", false);
-                request.setRequestHeader("Content-type", "application/json");
-                request.send();
-                var responseData = request.responseText.split(",");
+                var response = getStatusButtons();
+                var responseData = response.split(",");
 
                 ///////  Ocupado /////////////
 
@@ -57,25 +56,25 @@
                 
                 if(responseData[0] == "Disponivel"){
                     document.getElementById("lobby-1").style.background = "#ffbe76";
-                    document.getElementById("lobby-1").setAttribute("href", "https://meet.jit.si/Lobby_1");
+                    document.getElementById("lobby-1").setAttribute("href", "http://localhost/lobby-reunioes/cliente/loading.html?1");
                     document.getElementById("lobby-1").innerHTML = "Disponível";
                 }
 
                 if(responseData[1] == "Disponivel"){
                     document.getElementById("lobby-2").style.background = "#ffbe76";
-                    document.getElementById("lobby-2").setAttribute("href", "https://meet.jit.si/Lobby_2");
+                    document.getElementById("lobby-2").setAttribute("href", "http://localhost/lobby-reunioes/cliente/loading.html?2");
                     document.getElementById("lobby-2").innerHTML = "Disponível"
                 }
 
                 if(responseData[2] == "Disponivel"){
                     document.getElementById("lobby-3").style.background = "#ffbe76";
-                    document.getElementById("lobby-3").setAttribute("href", "https://meet.jit.si/Lobby_3");
+                    document.getElementById("lobby-3").setAttribute("href", "http://localhost/lobby-reunioes/cliente/loading.html?3");
                     document.getElementById("lobby-3").innerHTML = "Disponível"
                 }
 
                 if(responseData[3] == "Disponivel"){
                     document.getElementById("lobby-4").style.background = "#ffbe76";
-                    document.getElementById("lobby-4").setAttribute("href", "https://meet.jit.si/Lobby_4");
+                    document.getElementById("lobby-4").setAttribute("href", "http://localhost/lobby-reunioes/cliente/loading.html?4");
                     document.getElementById("lobby-4").innerHTML = "Disponível"
                 }
 

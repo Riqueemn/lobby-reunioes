@@ -1,6 +1,6 @@
 <?php
 
-$json = file_get_contents("data.json");
+$json = file_get_contents("../data/data.json");
 $obj = json_decode($json, true);
 
 $lobby_1 = $obj['Lobby_1'];

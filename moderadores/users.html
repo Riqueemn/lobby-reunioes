@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <title>Suporte</title>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="../styles/styles.css">
+    </head>
+
+    <body>
+
+        <div class="lobby">
+            <a id="lobby-1" class="buttonsM">User 1</a>
+            <a id="lobby-2" class="buttonsM">User 2</a>
+            <a id="lobby-3" class="buttonsM">User 3</a>
+            <a id="lobby-4" class="buttonsM">User 4</a>
+        </div>
+
+        <script src='../scripts/script-meet.js'></script>
+
+        <script>
+            function redirecionarParaUser(id){
+                window.location.replace("http://localhost/lobby-reunioes/moderadores/user.html?" + id);
+            }
+
+            setInterval(statusButtons, 1000);
+            function statusButtons(){
+                var response = getStatusButtons();
+                var responseData = response.split(",");
+
+                ///////  Disponível /////////////
+                
+                if(responseData[0] != "Indisponivel"){
+                    document.getElementById("lobby-1").style.background = "#95a5a6";
+                    document.getElementById("lobby-1").removeAttribute("href");
+                }
+
+                if(responseData[1] != "Indisponivel"){
+                    document.getElementById("lobby-2").style.background = "#95a5a6";
+                    document.getElementById("lobby-2").removeAttribute("href");
+                }
+
+                if(responseData[2] != "Indisponivel"){
+                    document.getElementById("lobby-3").style.background = "#95a5a6";
+                    document.getElementById("lobby-3").removeAttribute("href");
+                }
+
+                if(responseData[3] != "Indisponivel"){
+                    document.getElementById("lobby-4").style.background = "#95a5a6";
+                    document.getElementById("lobby-4").removeAttribute("href");
+                }
+                
+                //////////////////////////////////////////////////
+
+                ///////  Indisponível /////////////
+
+                if(responseData[0] == "Indisponivel"){
+                    document.getElementById("lobby-1").style.background = "green";
+                    document.getElementById("lobby-1").setAttribute("onclick","redirecionarParaUser(" + 1 + ")");  
+                }
+
+                if(responseData[1] == "Indisponivel"){
+                    document.getElementById("lobby-2").style.background = "green";
+                    document.getElementById("lobby-2").setAttribute("onclick","redirecionarParaUser(" + 2 + ")");
+                }
+
+                if(responseData[2] == "Indisponivel"){
+                    document.getElementById("lobby-3").style.background = "green";
+                    document.getElementById("lobby-3").setAttribute("onclick","redirecionarParaUser(" + 3 + ")");
+                }
+
+                if(responseData[3] == "Indisponivel"){
+                    document.getElementById("lobby-4").style.background = "green";
+                    document.getElementById("lobby-4").setAttribute("onclick","redirecionarParaUser(" + 4 + ")");
+                }
+
+                //////////////////////////////////////////////////
+            }
+            
+        </script>
+
+    </body>
+</html>
