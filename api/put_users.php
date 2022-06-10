@@ -1,7 +1,7 @@
 <?php
 
 $json = file_get_contents("php://input");
-$bytes = file_put_contents("data.json", $json);
+$bytes = file_put_contents("../data/users.json", $json);
 
 echo $bytes;
 

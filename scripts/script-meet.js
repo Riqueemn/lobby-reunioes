@@ -18,9 +18,28 @@ var lobbys = {
     Lobby_4: 'Indisponivel',
 }
 
+var users = {
+    User_1: {
+        status: 'desativado',
+        notification: '0'
+    },
+    User_1: {
+        status: 'desativado',
+        notification: '0'
+    },
+    User_1: {
+        status: 'desativado',
+        notification: '0'
+    },
+    User_1: {
+        status: 'desativado',
+        notification: '0'
+    }
+}
+
 function inic() {
     let request = new XMLHttpRequest()
-    request.open("POST", "http://localhost/lobby-reunioes/put.php", true);
+    request.open("POST", "http://localhost/lobby-reunioes/api/put.php", true);
     request.setRequestHeader("Content-type", "application/json");
     request.send(JSON.stringify(lobbys));
     request.onload = function () {
@@ -28,9 +47,47 @@ function inic() {
     }
 }
 
-function updateLobby(){
+function getStatusButtons() {
     let request = new XMLHttpRequest()
-    request.open("GET", "http://localhost/lobby-reunioes/get.php", false);
+    request.open("GET", "http://localhost/lobby-reunioes/api/get.php", false);
+    request.setRequestHeader("Content-type", "application/json");
+    request.send();
+    
+    return request.responseText;
+}
+
+function getStatusUsers() {
+    let request = new XMLHttpRequest()
+    request.open("GET", "http://localhost/lobby-reunioes/api/get_users.php", false);
+    request.setRequestHeader("Content-type", "application/json");
+    request.send();
+    
+    return request.responseText;
+}
+
+function setStatusButtons(object) {
+    let request = new XMLHttpRequest()
+    request.open("POST", "http://localhost/lobby-reunioes/api/put.php", true);
+    request.setRequestHeader("Content-type", "application/json");
+    request.send(JSON.stringify(object));
+    request.onload = function () {
+        //confirm(this.responseText);
+    }
+}
+
+function setStatusUsers(object) {
+    let request = new XMLHttpRequest()
+    request.open("POST", "http://localhost/lobby-reunioes/api/put_users.php", true);
+    request.setRequestHeader("Content-type", "application/json");
+    request.send(JSON.stringify(object));
+    request.onload = function () {
+        //confirm(this.responseText);
+    }
+}
+
+function updateLobby() {
+    let request = new XMLHttpRequest()
+    request.open("GET", "http://localhost/lobby-reunioes/api/get.php", false);
     request.setRequestHeader("Content-type", "application/json");
     request.send();
     var responseData = request.responseText.split(",");
@@ -41,9 +98,10 @@ function updateLobby(){
     lobbys['Lobby_4'] = responseData[3];
 }
 
+
 var SendStatusButton = function (object) {
     let request = new XMLHttpRequest()
-    request.open("POST", "http://localhost/lobby-reunioes/put.php", true);
+    request.open("POST", "http://localhost/lobby-reunioes/api/put.php", true);
     request.setRequestHeader("Content-type", "application/json");
     request.send(JSON.stringify(object));
     request.onload = function () {
