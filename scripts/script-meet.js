@@ -11,43 +11,8 @@ const options = {
 api = new JitsiMeetExternalAPI(domain, options);
 
 
-var lobbys = {
-    Lobby_1: 'Indisponivel',
-    Lobby_2: 'Indisponivel',
-    Lobby_3: 'Indisponivel',
-    Lobby_4: 'Indisponivel',
-}
 
-var users = {
-    User_1: {
-        status: 'desativado',
-        notification: '0'
-    },
-    User_1: {
-        status: 'desativado',
-        notification: '0'
-    },
-    User_1: {
-        status: 'desativado',
-        notification: '0'
-    },
-    User_1: {
-        status: 'desativado',
-        notification: '0'
-    }
-}
-
-function inic() {
-    let request = new XMLHttpRequest()
-    request.open("POST", "http://localhost/lobby-reunioes/api/put.php", true);
-    request.setRequestHeader("Content-type", "application/json");
-    request.send(JSON.stringify(lobbys));
-    request.onload = function () {
-        //confirm(this.responseText);
-    }
-}
-
-function getStatusButtons() {
+function getLobbys() {
     let request = new XMLHttpRequest()
     request.open("GET", "http://localhost/lobby-reunioes/api/get.php", false);
     request.setRequestHeader("Content-type", "application/json");
@@ -56,7 +21,7 @@ function getStatusButtons() {
     return request.responseText;
 }
 
-function getStatusUsers() {
+function qtdUsersLogados() {
     let request = new XMLHttpRequest()
     request.open("GET", "http://localhost/lobby-reunioes/api/get_users.php", false);
     request.setRequestHeader("Content-type", "application/json");
@@ -65,13 +30,32 @@ function getStatusUsers() {
     return request.responseText;
 }
 
-function setStatusButtons(object) {
+function getUsers() {
+    let request = new XMLHttpRequest()
+    request.open("GET", "http://localhost/lobby-reunioes/api/get_users.php", false);
+    request.setRequestHeader("Content-type", "application/json");
+    request.send();
+
+    return request.responseText;
+}
+
+function setLobbyOnline(object) {
+    let request = new XMLHttpRequest()
+    request.open("POST", "http://localhost/lobby-reunioes/api/put_users.php", true);
+    request.setRequestHeader("Content-type", "application/json");
+    request.send(JSON.stringify(object));
+    request.onload = function () {
+        //console.log(this.responseText);
+    }
+}
+
+function liberarSala(object) {
     let request = new XMLHttpRequest()
     request.open("POST", "http://localhost/lobby-reunioes/api/put.php", true);
     request.setRequestHeader("Content-type", "application/json");
     request.send(JSON.stringify(object));
     request.onload = function () {
-        //confirm(this.responseText);
+        //console.log(this.responseText);
     }
 }
 
