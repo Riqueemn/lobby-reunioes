@@ -3,6 +3,7 @@
     ob_start();
 
     $aux_sala = $_SESSION['SalaPresente'];
+
     unset($_SESSION['SalaPresente']);
 
     $json = file_get_contents("../data/users.json");
@@ -68,7 +69,6 @@
             function redirectSala(obj, numSala){
                 obj["lobby_"+(numSala)].sala = 1+"";
                 liberarSala(obj)
-
                 window.location.href = obj["lobby_"+numSala]["link"];
             }
 

@@ -1,14 +1,38 @@
 
+userType = document.getElementById("userType").innerHTML+"";
+//userType.inneHTML=2
 
 const domain = 'meet.jit.si';
 const options = {
     roomName: document.title,
+    //onload: api.executeCommand('displayName', 'New Nickname'),
     width: 700,
     height: 700,
     parentNode: document.querySelector('#meet'),
-    lang: 'pt-br'
+    lang: 'pt-br',
+    userInfo: {
+        email: '',
+        displayName: userType
+    }
 };
+
+
+
+
 api = new JitsiMeetExternalAPI(domain, options);
+
+api.exe
+
+api.executeCommands({
+    displayName: [ 'moderador' ]});
+
+
+api.addListener("videoConferenceJoined", participantJoinnedLocal_function);
+api.addListener("videoConferenceLeft", participantLeftLocal_function);
+
+
+api.addListener("participantJoined", participantJoinned_function);
+api.addListener("participantLeft", participantLeft_function);
 
 
 
@@ -125,10 +149,5 @@ var participantLeftLocal_function = function (object) {
 
 }
 
-api.addListener("videoConferenceJoined", participantJoinnedLocal_function);
-api.addListener("videoConferenceLeft", participantLeftLocal_function);
 
-
-api.addListener("participantJoined", participantJoinned_function);
-api.addListener("participantLeft", participantLeft_function);
 

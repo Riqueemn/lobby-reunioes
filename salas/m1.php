@@ -12,10 +12,14 @@
     $json = json_encode($obj);
     $bytes = file_put_contents("../data/data.json", $json);
 
+    $userType = 0;
+
    if($_SESSION["nome"] == "Henrique" || $_SESSION["nome"] == "Leones"){
-    echo "moderador";
+    $userType = "1";
+    echo "<p id='userType' value='moderador'>moderador</p>";
    } else {
-    echo "cliente";
+    $userType = "0";
+    echo "<p id='userType' value='cliente'>cliente</p>";
    }
 
 ?>
@@ -32,10 +36,18 @@
 
         <div id="meet"></div>
 
+
         <script src='https://meet.jit.si/external_api.js'></script>
         <script src='../scripts/script-meet.js'></script>
 
         <script>
+
+            
+userType = document.getElementById("userType");
+
+confirm(userType)
+            console.log(userType);
+
             setInterval(statusSala, 1000);
 
             function statusSala(){
@@ -48,7 +60,7 @@
                     window.location.href = "http://localhost/lobby-reunioes/cliente/cliente.php";
                 }
 
-                if(obj["lobby_"+numSala]["status"] == "0" && "cliente"){
+                if(obj["lobby_"+numSala]["status"] == "0" && <?php echo $userType; ?> == "0"){
                     window.location.href = "http://localhost/lobby-reunioes/cliente/cliente.php";
                 }
             }
