@@ -20,6 +20,9 @@
     if(!isset($_SESSION['SalaPresente'])){
         $obj["lobby_".$aux_sala]["sala"]="0";
         echo $aux_sala;
+
+        $json = json_encode($obj);
+        $bytes = file_put_contents("../data/data.json", $json);
     }
 
     
@@ -34,8 +37,7 @@
     $json = json_encode($users);
     $bytes = file_put_contents("../data/users.json", $json);
 
-    $json = json_encode($obj);
-    $bytes = file_put_contents("../data/data.json", $json);
+    
 
 ?>
 
