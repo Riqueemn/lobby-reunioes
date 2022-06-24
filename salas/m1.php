@@ -2,12 +2,12 @@
     session_start();
     ob_start();
 
-    $_SESSION["SalaPresente"] = 1;
+    $_SESSION["SalaPresente"]= 1;
 
     $json = file_get_contents("../data/data.json");
     $obj = json_decode($json, true);
 
-    $obj["lobby_".$_SESSION['lobby']]["status"]="3";
+    $obj["lobby_".$_SESSION["SalaPresente"]]["status"]="3";
 
     $json = json_encode($obj);
     $bytes = file_put_contents("../data/data.json", $json);
@@ -16,7 +16,7 @@
 
    if($_SESSION["nome"] == "Henrique" || $_SESSION["nome"] == "Leones"){
     $userType = "1";
-    echo "<p id='userType' value='moderador'>moderador</p>";
+    echo "<p id='userType' value='suporte'>suporte</p>";
    } else {
     $userType = "0";
     echo "<p id='userType' value='cliente'>cliente</p>";
@@ -45,7 +45,6 @@
             
 userType = document.getElementById("userType");
 
-confirm(userType)
             console.log(userType);
 
             setInterval(statusSala, 1000);

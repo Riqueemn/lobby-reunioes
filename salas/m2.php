@@ -16,10 +16,10 @@
 
    if($_SESSION["nome"] == "Henrique" || $_SESSION["nome"] == "Leones"){
     $userType = "1";
-    echo "moderador";
+    echo "<p id='userType' value='suporte'>moderador</p>";
    } else {
     $userType = "0";
-    echo "cliente";
+    echo "<p id='userType' value='cliente'>cliente</p>";
    }
 
 ?>
@@ -36,10 +36,17 @@
 
         <div id="meet"></div>
 
+
         <script src='https://meet.jit.si/external_api.js'></script>
         <script src='../scripts/script-meet.js'></script>
 
         <script>
+
+            
+userType = document.getElementById("userType");
+
+            console.log(userType);
+
             setInterval(statusSala, 1000);
 
             function statusSala(){

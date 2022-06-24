@@ -1,19 +1,28 @@
 
 userType = document.getElementById("userType").innerHTML+"";
 //userType.inneHTML=2
+m = false;
+
+if(userType == "suporte"){
+    m = true;
+} else {
+    m = false;
+}
+
 
 const domain = 'meet.jit.si';
 const options = {
+    userInfo: {
+        moderator: m,
+        
+    },
     roomName: document.title,
     //onload: api.executeCommand('displayName', 'New Nickname'),
     width: 700,
     height: 700,
     parentNode: document.querySelector('#meet'),
     lang: 'pt-br',
-    userInfo: {
-        email: '',
-        displayName: userType
-    }
+    
 };
 
 
@@ -21,18 +30,8 @@ const options = {
 
 api = new JitsiMeetExternalAPI(domain, options);
 
-api.exe
+    
 
-api.executeCommands({
-    displayName: [ 'moderador' ]});
-
-
-api.addListener("videoConferenceJoined", participantJoinnedLocal_function);
-api.addListener("videoConferenceLeft", participantLeftLocal_function);
-
-
-api.addListener("participantJoined", participantJoinned_function);
-api.addListener("participantLeft", participantLeft_function);
 
 
 
@@ -150,4 +149,27 @@ var participantLeftLocal_function = function (object) {
 }
 
 
+var readyToClose = function (object) {
+    //confirm("Fechando")
+}
 
+var participantLeft = function (object) {
+    //confirm("Fechando")
+    if(m){
+        window.location.href = "http://localhost/lobby-reunioes/suporte/dashboard.php";
+    }
+
+}
+
+
+api.addListener("readyToClose", readyToClose);
+
+api.addListener("participantLeft", participantLeft);
+
+
+api.addListener("videoConferenceJoined", participantJoinnedLocal_function);
+api.addListener("videoConferenceLeft", participantLeftLocal_function);
+
+
+api.addListener("participantJoined", participantJoinned_function);
+api.addListener("participantLeft", participantLeft_function);
