@@ -1,5 +1,9 @@
 <?php
 
+        
+    include("../api_2/conexao.php");
+    include("../api_2/lobby.php");
+
 
     //unset($_SESSION['lobby']);
     session_start();
@@ -7,19 +11,16 @@
 
   
 
-    $json = file_get_contents("../data/data.json");
-    $obj = json_decode($json, true);
+    
 
 
     if(!isset($_SESSION['lobby'])){
         header("Location: cliente.php");
     }else{
 
-        $obj["lobby_".$_SESSION['lobby']]["status"]="2";
+        $lobbys = new Lobby();    
 
-        $json = json_encode($obj);
-        $bytes = file_put_contents("../data/data.json", $json);
-
+        $obj = $lobbys->OcuparLobby($mysqli, "lobby_".$_SESSION['lobby']);
 
         echo $_SESSION['lobby'];
     }
@@ -55,8 +56,12 @@
             setInterval(statusSala, 1000);
 
             function statusSala(){
-                var response = getLobbys();
-                obj = JSON.parse(response);
+                let request = new XMLHttpRequest()
+                request.open("GET", "http://localhost/lobby-reunioes/api_2/json_lobbys.php", false);
+                request.setRequestHeader("Content-type", "application/json");
+                request.send();
+                
+                var obj = JSON.parse(request.responseText);
 
                 numSala = <?php echo $_SESSION['lobby']; ?>;
 
@@ -64,7 +69,7 @@
                     window.location.href = obj["lobby_"+numSala]["link"];
                 } 
                 
-                if(obj["lobby_"+numSala]["status"] == "0"){
+                if(obj["lobby_"+numSala]["status"] != "2"){
                     window.location.href = "http://localhost/lobby-reunioes/cliente/cliente.php";
                 }
             }
