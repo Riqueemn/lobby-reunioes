@@ -2,11 +2,13 @@
 
     include("../api_2/conexao.php");
     include("../api_2/lobby.php");
+    //include("../api_2/sessao.php");
 
     //unset($_SESSION['lobby']);
     session_start();
     ob_start();
 
+    $sessao = new Sessao();
     $lobbys = new Lobby();    
 
     $obj = $lobbys->LobbyStatus($mysqli);
@@ -14,8 +16,12 @@
 
     echo $_SESSION['lobby'];
 
+    $cont = $sessao->SuporteLogados($mysqli);
+
+    echo $cont;
+
     if(isset($_SESSION['lobby'])){
-        $lobbys->LiberarLobby($mysqli, "lobby_".$_SESSION['lobby']);
+        //$lobbys->LiberarLobby($mysqli, "lobby_".$_SESSION['lobby']);
     }
 
     unset($_SESSION['lobby']);

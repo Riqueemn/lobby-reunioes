@@ -22,12 +22,21 @@ class Lobby {
     }
 
     public static function lobbyStatusEspecifico($db, $nome){
-        $sql = "SELECT * FROM `lobbys` WHERE nome='lobby_1'";
+        $sql = "SELECT * FROM `lobbys` WHERE nome='$nome'";
+
+        $lobbys = [];
 
         $select = mysqli_query($db, $sql);
 
+        for($linha = 0; $resultado = mysqli_fetch_assoc($select); $linha++){
+            $lobbys[$linha]['id'] = $resultado['id'];
+            $lobbys[$linha]['nome'] = $resultado['nome'];
+            $lobbys[$linha]['status'] = $resultado['status'];
+            $lobbys[$linha]['sala'] = $resultado['sala'];
+            $lobbys[$linha]['link'] = $resultado['link'];
+        }
 
-        echo json_encode($select);
+        return $lobbys[0];
     }
 
     public static function LiberarLobby($db, $nome){
@@ -84,6 +93,13 @@ class Lobby {
 
     public static function LiberarSala($db, $nome){
         $sql = "UPDATE lobbys SET sala='1' WHERE nome='$nome'";
+        mysqli_query($db, $sql);
+
+        //return json_encode($lobbys);
+    }
+
+    public static function FecharSala($db, $nome){
+        $sql = "UPDATE lobbys SET sala='0' WHERE nome='$nome'";
         mysqli_query($db, $sql);
 
         //return json_encode($lobbys);

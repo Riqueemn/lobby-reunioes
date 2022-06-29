@@ -12,7 +12,7 @@
   
 
     
-
+    echo $_SESSION['lobby'];
 
     if(!isset($_SESSION['lobby'])){
         header("Location: cliente.php");
@@ -65,13 +65,22 @@
 
                 numSala = <?php echo $_SESSION['lobby']; ?>;
 
-                if(obj["lobby_"+numSala]["sala"] == "1"){
-                    window.location.href = obj["lobby_"+numSala]["link"];
-                } 
-                
-                if(obj["lobby_"+numSala]["status"] != "2"){
+
+                if(obj[numSala-1]["status"] == "0"){
                     window.location.href = "http://localhost/lobby-reunioes/cliente/cliente.php";
                 }
+
+
+                if(obj[numSala-1]["sala"] == "1"){
+                    window.location.href = obj[numSala-1]["link"];
+                } 
+                
+                /*
+                if(obj[numSala-1]["status"] != "2"){
+                    window.location.href = "http://localhost/lobby-reunioes/cliente/cliente.php";
+                }
+                */
+ 
             }
             
         </script>

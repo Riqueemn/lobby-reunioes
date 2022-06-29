@@ -1,5 +1,7 @@
 <?php
     include("../api_2/conexao.php");
+    include("../api_2/sessao.php");
+
 
     session_start();
     ob_start();
@@ -21,6 +23,9 @@
         ?>
 
         <?php
+
+            $sessao = new Sessao();
+
             $dados = filter_input_array(INPUT_POST, FILTER_DEFAULT);
 
             function validarConta($mysqli, $nome, $senha){

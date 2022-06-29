@@ -50,18 +50,24 @@ userType = document.getElementById("userType");
             setInterval(statusSala, 1000);
 
             function statusSala(){
-                var response = getLobbys();
-                obj = JSON.parse(response);
+                let request = new XMLHttpRequest()
+                request.open("GET", "http://localhost/lobby-reunioes/api_2/json_lobbys.php", false);
+                request.setRequestHeader("Content-type", "application/json");
+                request.send();
+                
+                var obj = JSON.parse(request.responseText);
 
                 numSala = <?php echo $_SESSION['lobby']; ?>;
 
-                if(obj["lobby_"+numSala]["sala"] == "0"){
+                if(obj[numSala-1]["sala"] == "0"){
                     window.location.href = "http://localhost/lobby-reunioes/cliente/cliente.php";
                 }
 
+                /*
                 if(obj["lobby_"+numSala]["status"] == "0" && <?php echo $userType; ?> == "0"){
                     window.location.href = "http://localhost/lobby-reunioes/cliente/cliente.php";
                 }
+                */
             }
         </script>
 

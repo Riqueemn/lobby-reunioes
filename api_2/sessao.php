@@ -29,6 +29,27 @@ class Sessao {
         $lobbys = new Lobby();    
         $lobbys->FecharLobby($db, "lobby_1");
     }
+
+    public static function SuporteLogados($db){
+        $sql = "SELECT * FROM `users_suporte`";
+
+        $lobbys = [];
+
+        $select = mysqli_query($db, $sql);
+
+        $cont = 0;
+
+        for($linha = 0; $resultado = mysqli_fetch_assoc($select); $linha++){
+            
+            if($lobbys[$linha]['status'] == "1"){
+                $cont++;
+            }
+           
+        }
+
+
+        return $cont;
+    }
 }
 
 

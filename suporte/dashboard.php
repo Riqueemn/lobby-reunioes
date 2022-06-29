@@ -8,41 +8,30 @@
     session_start();
     ob_start();
 
-    $sessao = new Sessao();
-
     $lobbys = new Lobby();
 
     $dados = filter_input_array(INPUT_POST, FILTER_DEFAULT);
 
     var_dump($dados["lobby"]);
     if($dados["lobby"] != null){
-        echo $dados["lobby"];
         //echo $_SESSION['lobby'];
-        echo $lobbys->lobbyStatusEspecifico($mysqli, $dados["lobby"]);
+        $lobby =  $lobbys->lobbyStatusEspecifico($mysqli, $dados["lobby"]);
+        $lobbys->LiberarSala($mysqli, $dados["lobby"]);
+        $_SESSION['sala'] = $lobby["nome"];
         
-        
-        //header("Location: loading.php");
+        header("Location: ".$lobby["link"]);
+    } else {
+        echo $_SESSION['sala'];
+        $lobbys->FecharSala($mysqli, $_SESSION['sala']);
+        $lobbys->LiberarLobby($mysqli, $_SESSION['sala']);
+        unset($_SESSION['sala']);
     }
-
-
-    $aux_sala = $_SESSION['SalaPresente'];
-
-    unset($_SESSION['SalaPresente']);
-
-    $json = file_get_contents("../data/data.json");
-    $obj = json_decode($json, true);
 
     if(!isset($_SESSION['nome'])){
         $_SESSION['msg'] = "<p style='color: #ff0000'>Necessário realizar o login para acessar a página</p>";
         header("Location: login.php");
     }
-    if(!isset($_SESSION['SalaPresente'])){
-        $obj["lobby_".$aux_sala]["sala"]="0";
-        echo $aux_sala;
-
-        $json = json_encode($obj);
-        $bytes = file_put_contents("../data/data.json", $json);
-    }
+    
     
 
 ?>
