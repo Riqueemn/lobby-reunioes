@@ -57,7 +57,7 @@
 
             function statusSala(){
                 let request = new XMLHttpRequest()
-                request.open("GET", "http://localhost/lobby-reunioes/api_2/json_lobbys.php", false);
+                request.open("GET", "http://192.168.0.183/lobby-reunioes/api_2/json_lobbys.php", false);
                 request.setRequestHeader("Content-type", "application/json");
                 request.send();
                 
@@ -67,7 +67,7 @@
 
 
                 if(obj[numSala-1]["status"] == "0"){
-                    window.location.href = "http://localhost/lobby-reunioes/cliente/cliente.php";
+                    window.location.href = "http://192.168.0.183/lobby-reunioes/cliente/cliente.php";
                 }
 
 

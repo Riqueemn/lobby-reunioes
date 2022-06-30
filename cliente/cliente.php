@@ -2,26 +2,22 @@
 
     include("../api_2/conexao.php");
     include("../api_2/lobby.php");
-    //include("../api_2/sessao.php");
+    include("../api_2/sessao.php");
 
-    //unset($_SESSION['lobby']);
     session_start();
     ob_start();
 
     $sessao = new Sessao();
     $lobbys = new Lobby();    
 
+    $nomeLobby = "lobby_".$_SESSION['lobby'];
+
     $obj = $lobbys->LobbyStatus($mysqli);
-
-
-    echo $_SESSION['lobby'];
-
+    $obj2 = $lobbys->lobbyStatusEspecifico($mysqli, $nomeLobby);
     $cont = $sessao->SuporteLogados($mysqli);
 
-    echo $cont;
-
-    if(isset($_SESSION['lobby'])){
-        //$lobbys->LiberarLobby($mysqli, "lobby_".$_SESSION['lobby']);
+    if(isset($_SESSION['lobby']) && $obj2["sala"] != "1" && $cont != 0){
+        $lobbys->LiberarLobby($mysqli, "lobby_".$_SESSION['lobby']);
     }
 
     unset($_SESSION['lobby']);
@@ -71,7 +67,7 @@
             setInterval(statusButtons, 1000);
             function statusButtons(){
                 let request = new XMLHttpRequest()
-                request.open("GET", "http://localhost/lobby-reunioes/api_2/json_lobbys.php", false);
+                request.open("GET", "http://192.168.0.183/lobby-reunioes/api_2/json_lobbys.php", false);
                 request.setRequestHeader("Content-type", "application/json");
                 request.send();
                 
@@ -89,8 +85,7 @@
                         document.getElementById("lobby-"+(i+1)).innerHTML = "Ocupado";
                     } else if (response[i]["status"] == "1"){
                         document.getElementById("lobby-"+(i+1)).style.background = "#ffbe76";
-                        //document.getElementById("lobby-"+(i+1)).setAttribute("disabled", "");
-                        document.getElementById("lobby-"+(i+1)).setAttribute("href", "http://localhost/lobby-reunioes/cliente/loading.php");
+                        document.getElementById("lobby-"+(i+1)).removeAttribute("disabled");
                         document.getElementById("lobby-"+(i+1)).innerHTML = "Disponível";
                     }
                 }

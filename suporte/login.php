@@ -1,6 +1,7 @@
 <?php
     include("../api_2/conexao.php");
     include("../api_2/sessao.php");
+    include("../api_2/lobby.php");
 
 
     session_start();
@@ -24,6 +25,7 @@
 
         <?php
 
+            $lobby = new Lobby();
             $sessao = new Sessao();
 
             $dados = filter_input_array(INPUT_POST, FILTER_DEFAULT);
@@ -59,7 +61,7 @@
                     $row_usuario = array("nome" => $nome, "senha" => $senha);
                     //var_dump($row_usuario);
                     $_SESSION['nome'] = $row_usuario['nome'];
-                    $sessao->Logar($mysqli, $_SESSION['nome']);
+                    $sessao->Logar($mysqli, $_SESSION['nome'], $lobby);
                     header("Location: dashboard.php");
                 } else{
                     $_SESSION['msg'] = "<p style='color: #ff0000'>Erro: Usuario ou senha invalida</p>";

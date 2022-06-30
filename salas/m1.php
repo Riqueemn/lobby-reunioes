@@ -2,25 +2,15 @@
     session_start();
     ob_start();
 
-    $_SESSION["SalaPresente"]= 1;
-
-    $json = file_get_contents("../data/data.json");
-    $obj = json_decode($json, true);
-
-    $obj["lobby_".$_SESSION["SalaPresente"]]["status"]="3";
-
-    $json = json_encode($obj);
-    $bytes = file_put_contents("../data/data.json", $json);
-
     $userType = 0;
 
-   if($_SESSION["nome"] == "Henrique" || $_SESSION["nome"] == "Leones"){
-    $userType = "1";
-    echo "<p id='userType' value='suporte'>suporte</p>";
-   } else {
-    $userType = "0";
-    echo "<p id='userType' value='cliente'>cliente</p>";
-   }
+    if($_SESSION["nome"] == "Henrique" || $_SESSION["nome"] == "Leones"){
+        $userType = "1";
+        echo "<p id='userType' value='suporte'>suporte</p>";
+    } else {
+        $userType = "0";
+        echo "<p id='userType' value='cliente'>cliente</p>";
+    }
 
 ?>
 
@@ -43,7 +33,7 @@
         <script>
 
             
-userType = document.getElementById("userType");
+            userType = document.getElementById("userType");
 
             console.log(userType);
 
@@ -51,7 +41,7 @@ userType = document.getElementById("userType");
 
             function statusSala(){
                 let request = new XMLHttpRequest()
-                request.open("GET", "http://localhost/lobby-reunioes/api_2/json_lobbys.php", false);
+                request.open("GET", "http://192.168.0.183/lobby-reunioes/api_2/json_lobbys.php", false);
                 request.setRequestHeader("Content-type", "application/json");
                 request.send();
                 
@@ -60,7 +50,7 @@ userType = document.getElementById("userType");
                 numSala = <?php echo $_SESSION['lobby']; ?>;
 
                 if(obj[numSala-1]["sala"] == "0"){
-                    window.location.href = "http://localhost/lobby-reunioes/cliente/cliente.php";
+                    window.location.href = "http://192.168.0.183/lobby-reunioes/cliente/cliente.php";
                 }
 
                 /*

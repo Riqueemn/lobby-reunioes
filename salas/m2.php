@@ -2,25 +2,17 @@
     session_start();
     ob_start();
 
-    $_SESSION["SalaPresente"] = 2;
-
-    $json = file_get_contents("../data/data.json");
-    $obj = json_decode($json, true);
-
-    $obj["lobby_".$_SESSION['lobby']]["status"]="3";
-
-    $json = json_encode($obj);
-    $bytes = file_put_contents("../data/data.json", $json);
+    
 
     $userType = 0;
 
-   if($_SESSION["nome"] == "Henrique" || $_SESSION["nome"] == "Leones"){
-    $userType = "1";
-    echo "<p id='userType' value='suporte'>moderador</p>";
-   } else {
-    $userType = "0";
-    echo "<p id='userType' value='cliente'>cliente</p>";
-   }
+    if($_SESSION["nome"] == "Henrique" || $_SESSION["nome"] == "Leones"){
+        $userType = "1";
+        echo "<p id='userType' value='suporte'>moderador</p>";
+    } else {
+        $userType = "0";
+        echo "<p id='userType' value='cliente'>cliente</p>";
+    }
 
 ?>
 
@@ -43,25 +35,31 @@
         <script>
 
             
-userType = document.getElementById("userType");
+            userType = document.getElementById("userType");
 
             console.log(userType);
 
             setInterval(statusSala, 1000);
 
             function statusSala(){
-                var response = getLobbys();
-                obj = JSON.parse(response);
+                let request = new XMLHttpRequest()
+                request.open("GET", "http://192.168.0.183/lobby-reunioes/api_2/json_lobbys.php", false);
+                request.setRequestHeader("Content-type", "application/json");
+                request.send();
+                
+                var obj = JSON.parse(request.responseText);
 
                 numSala = <?php echo $_SESSION['lobby']; ?>;
 
                 if(obj["lobby_"+numSala]["sala"] == "0"){
-                    window.location.href = "http://localhost/lobby-reunioes/cliente/cliente.php";
+                    window.location.href = "http://192.168.0.183/lobby-reunioes/cliente/cliente.php";
                 }
 
+                /*
                 if(obj["lobby_"+numSala]["status"] == "0" && <?php echo $userType; ?> == "0"){
                     window.location.href = "http://localhost/lobby-reunioes/cliente/cliente.php";
                 }
+                */
             }
         </script>
 
