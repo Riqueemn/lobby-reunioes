@@ -79,6 +79,15 @@ class Lobby {
         //return json_encode($lobbys);
     }
 
+    public static function LiberarLobby3($db, $nome){
+
+        echo "LiberarLobby3";
+
+        $sql = "UPDATE lobbys SET status='1' WHERE nome='$nome'";
+        mysqli_query($db, $sql);
+
+    }
+
 
     public static function FecharLobby($db, $nome){
         $sql = "UPDATE lobbys SET status='0' WHERE nome='$nome'";

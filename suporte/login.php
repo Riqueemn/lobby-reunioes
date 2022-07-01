@@ -6,6 +6,7 @@
 
     session_start();
     ob_start();
+
 ?>
 
 <!DOCTYPE html>
@@ -61,7 +62,7 @@
                     $row_usuario = array("nome" => $nome, "senha" => $senha);
                     //var_dump($row_usuario);
                     $_SESSION['nome'] = $row_usuario['nome'];
-                    $sessao->Logar($mysqli, $_SESSION['nome'], $lobby);
+                    //$sessao->Logar($mysqli, $_SESSION['nome'], $lobby);
                     header("Location: dashboard.php");
                 } else{
                     $_SESSION['msg'] = "<p style='color: #ff0000'>Erro: Usuario ou senha invalida</p>";

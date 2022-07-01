@@ -15,12 +15,12 @@
     echo $_SESSION['lobby'];
 
     if(!isset($_SESSION['lobby'])){
-        header("Location: cliente.php");
+        //header("Location: cliente.php");
     }else{
 
         $lobbys = new Lobby();    
 
-        $obj = $lobbys->OcuparLobby($mysqli, "lobby_".$_SESSION['lobby']);
+        //$obj = $lobbys->OcuparLobby($mysqli, "lobby_".$_SESSION['lobby']);
 
         echo $_SESSION['lobby'];
     }
@@ -51,11 +51,11 @@
 
         <script>
             numLobby = document.URL[document.URL.length - 1];
-            setLobbyOnline(<?php echo $_SESSION['lobby']; ?>);
 
             setInterval(statusSala, 1000);
 
             function statusSala(){
+                console.log("bbbbb");
                 let request = new XMLHttpRequest()
                 request.open("GET", "http://192.168.0.183/lobby-reunioes/api_2/json_lobbys.php", false);
                 request.setRequestHeader("Content-type", "application/json");
@@ -63,7 +63,7 @@
                 
                 var obj = JSON.parse(request.responseText);
 
-                numSala = <?php echo $_SESSION['lobby']; ?>;
+                numSala = 1;
 
 
                 if(obj[numSala-1]["status"] == "0"){

@@ -28,15 +28,25 @@
 
 
         <script src='https://meet.jit.si/external_api.js'></script>
-        <script src='../scripts/script-meet.js'></script>
 
         <script>
 
             
-            userType = document.getElementById("userType");
+            const domain = 'meet.jit.si';
+            const options = {
+                roomName: document.title,
+                width: 700,
+                height: 700,
+                parentNode: document.querySelector('#meet'),
+                lang: 'pt-br'
+            };
 
-            console.log(userType);
 
+
+
+            api = new JitsiMeetExternalAPI(domain, options);
+
+            
             setInterval(statusSala, 1000);
 
             function statusSala(){
@@ -47,14 +57,20 @@
                 
                 var obj = JSON.parse(request.responseText);
 
-                numSala = <?php echo $_SESSION['lobby']; ?>;
+                numSala = <?php if(isset($_SESSION['lobby'])){
+                    echo $_SESSION['lobby'];
+                }else{
+                    echo "0";
+                } ?>;
 
                 if(obj[numSala-1]["sala"] == "0"){
                     window.location.href = "http://192.168.0.183/lobby-reunioes/cliente/cliente.php";
                 }
 
+                userType = <?php echo $userType; ?>;
+
                 /*
-                if(obj["lobby_"+numSala]["status"] == "0" && <?php echo $userType; ?> == "0"){
+                if(obj["lobby_"+numSala]["status"] == "0" && userType == "0"){
                     window.location.href = "http://localhost/lobby-reunioes/cliente/cliente.php";
                 }
                 */
