@@ -2,27 +2,20 @@
     session_start();
     ob_start();
 
-    $_SESSION["SalaPresente"] = 2;
-
-    $json = file_get_contents("../data/data.json");
-    $obj = json_decode($json, true);
-
-    $obj["lobby_".$_SESSION['lobby']]["status"]="3";
-
-    $json = json_encode($obj);
-    $bytes = file_put_contents("../data/data.json", $json);
+    
 
     $userType = 0;
 
-   if($_SESSION["nome"] == "Henrique" || $_SESSION["nome"] == "Leones"){
-    $userType = "1";
-    echo "<p id='userType' value='suporte'>moderador</p>";
-   } else {
-    $userType = "0";
-    echo "<p id='userType' value='cliente'>cliente</p>";
-   }
+    if($_SESSION["nome"] == "Henrique" || $_SESSION["nome"] == "Leones"){
+        $userType = "1";
+        echo "<p id='userType' value='suporte'>moderador</p>";
+    } else {
+        $userType = "0";
+        echo "<p id='userType' value='cliente'>cliente</p>";
+    }
 
 ?>
+
 
 
 <html>
@@ -38,31 +31,61 @@
 
 
         <script src='https://meet.jit.si/external_api.js'></script>
-        <script src='../scripts/script-meet.js'></script>
 
         <script>
 
+            //userType = document.getElementById("userType");
+
+            //console.log(userType);
+
+            //userType = document.getElementById("userType").innerHTML+"";
+
+
+
+            const domain = 'meet.jit.si';
+            const options = {
+                roomName: document.title,
+                width: 700,
+                height: 700,
+                parentNode: document.querySelector('#meet'),
+                lang: 'pt-br'
+            };
+
+
+
+
+            api = new JitsiMeetExternalAPI(domain, options);
+
             
-userType = document.getElementById("userType");
-
-            console.log(userType);
-
             setInterval(statusSala, 1000);
 
             function statusSala(){
-                var response = getLobbys();
-                obj = JSON.parse(response);
+                let request = new XMLHttpRequest()
+                request.open("GET", "http://192.168.0.183/lobby-reunioes/api_2/json_lobbys.php", false);
+                request.setRequestHeader("Content-type", "application/json");
+                request.send();
+                
+                var obj = JSON.parse(request.responseText);
 
-                numSala = <?php echo $_SESSION['lobby']; ?>;
+                numSala = <?php if(isset($_SESSION['lobby'])){
+                    echo $_SESSION['lobby'];
+                }else{
+                    echo "0";
+                } ?>;
 
-                if(obj["lobby_"+numSala]["sala"] == "0"){
-                    window.location.href = "http://localhost/lobby-reunioes/cliente/cliente.php";
+                if(obj[numSala-1]["sala"] == "0"){
+                    window.location.href = "http://192.168.0.183/lobby-reunioes/cliente/cliente.php";
                 }
 
-                if(obj["lobby_"+numSala]["status"] == "0" && <?php echo $userType; ?> == "0"){
+                var userType = <?php echo $userType; ?>;
+
+                /*
+                if(obj["lobby_"+numSala]["status"] == "0" && userType == "0"){
                     window.location.href = "http://localhost/lobby-reunioes/cliente/cliente.php";
                 }
+                */
             }
+            
         </script>
 
     </body>

@@ -1,6 +1,12 @@
 <?php
+    include("../api_2/conexao.php");
+    include("../api_2/sessao.php");
+    include("../api_2/lobby.php");
+
+
     session_start();
     ob_start();
+
 ?>
 
 <!DOCTYPE html>
@@ -19,20 +25,26 @@
         ?>
 
         <?php
+
+            $lobby = new Lobby();
+            $sessao = new Sessao();
+
             $dados = filter_input_array(INPUT_POST, FILTER_DEFAULT);
 
-            $json = file_get_contents("../data/users.json");
-            $users = json_decode($json, true);
+            function validarConta($mysqli, $nome, $senha){
+                $sql = "SELECT * FROM `users_suporte` WHERE nome='$nome'";
 
-            function validarConta($users, $nome, $senha){
-                for($i=0; $i<sizeof($users); $i++){
-                    //echo $users[strval(1)]["nome"];
-                    if($nome == $users[strval($i)]["nome"] AND $senha == $users[strval($i)]["senha"]){
-                        return true;
-                    }
-                }
+                $select = mysqli_query($mysqli, $sql);
+                $user = mysqli_fetch_assoc($select);
+
+
+                if($nome == $user["nome"] && $senha == $user["senha"]){
+                    return true;
+                } 
+                
 
                 return false;
+                
             }
 
             
@@ -46,10 +58,11 @@
 
                 
                 
-                if(validarConta($users, $nome, $senha)){
+                if(validarConta($mysqli, $nome, $senha)){
                     $row_usuario = array("nome" => $nome, "senha" => $senha);
                     //var_dump($row_usuario);
                     $_SESSION['nome'] = $row_usuario['nome'];
+                    //$sessao->Logar($mysqli, $_SESSION['nome'], $lobby);
                     header("Location: dashboard.php");
                 } else{
                     $_SESSION['msg'] = "<p style='color: #ff0000'>Erro: Usuario ou senha invalida</p>";
