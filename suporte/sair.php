@@ -13,7 +13,7 @@
     $sessao = new Sessao();
 
 
-    $sessao->Deslogar($mysqli, $_SESSION['nome'], $lobby);
+    //$sessao->Deslogar($mysqli, $_SESSION['nome'], $lobby);
 
 
     unset($_SESSION['nome']);

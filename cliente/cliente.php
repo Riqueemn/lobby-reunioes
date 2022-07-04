@@ -1,6 +1,40 @@
 <?php
 
+    include("../api_2/conexao.php");
+    include("../api_2/lobby.php");
+    include("../api_2/sessao.php");
 
+    session_start();
+    ob_start();
+
+    $sessao = new Sessao();
+    $lobbys = new Lobby();    
+
+    $nomeLobby = $_SESSION['lobby'];
+
+    $obj = $lobbys->LobbyStatus($mysqli);
+    $obj2 = $lobbys->lobbyStatusEspecifico($mysqli, $nomeLobby);
+    $cont = $sessao->SuporteLogados($mysqli);
+
+    if(isset($_SESSION['lobby']) && $obj2["sala"] != "1" && $cont != 0){
+        //$lobbys->LiberarLobby($mysqli, "lobby_".$_SESSION['lobby']);
+    }
+
+    unset($_SESSION['lobby']);
+
+
+
+
+
+    $dados = filter_input_array(INPUT_POST, FILTER_DEFAULT);
+    //var_dump($dados["lobby"]);
+    if($dados["lobby"] != null){
+        $l = $lobbys->lobbyStatusEspecifico($mysqli, $dados["lobby"]);
+        if($l["status"] == "1"){
+            $_SESSION['lobby'] = $dados["lobby"];
+            header("Location: loading.php");
+        }
+    }
 
 ?>
 
@@ -16,53 +50,18 @@
 
     <body>
         
-        <div id="lobby" >
-            <button onClick="redirectLoading('lobby_1')" name="lobby" id="lobby-1" class="buttons" value="lobby_1"></button>
-            <button onClick="redirectLoading('lobby_2')" name="lobby" id="lobby-2" class="buttons" value="lobby_2"></button>
-            <button onClick="redirectLoading('lobby_3')" name="lobby" id="lobby-3" class="buttons" value="lobby_3"></button>
-            <button onClick="redirectLoading('lobby_4')" name="lobby" id="lobby-4" class="buttons" value="lobby_4"></button>
+        <div class="lobby" >
+            <form method="POST" action="">
+                <button type="submit" name="lobby" id="lobby-1" class="buttons" value="lobby_1">Indisponível</button>
+                <button type="submit" name="lobby" id="lobby-2" class="buttons" value="lobby_2">Indisponível</button>
+                <button type="submit" name="lobby" id="lobby-3" class="buttons" value="lobby_3">Indisponível</button>
+                <button type="submit" name="lobby" id="lobby-4" class="buttons" value="lobby_4">Indisponível</button>
+            </form>
         </div>
 
-        <div class="loading">
-
-        </div>
+        <script src='../scripts/script-meet.js'></script>
 
         <script>
-
-            var name = "";
-            function redirectLoading(nomeLobby){
-                name = nomeLobby;
-                var node = document.getElementById("lobby");
-                if (node.parentNode) {
-                    node.parentNode.removeChild(node);
-                }
-
-                var ifrm = document.createElement("iframe");
-                ifrm.setAttribute("src", "http://192.168.0.183/lobby-reunioes/cliente/loading.php");
-                ifrm.setAttribute("height", "800");
-                ifrm.setAttribute("width", "800");
-                document.getElementsByClassName("loading")[0].appendChild(ifrm);
-
-                let myPromise = new Promise(function(myResolve, myReject) {
-                    let socket = new WebSocket('ws://localhost:9990/meet');
-                    let intervalConnectionSocket = setInterval(() =>{
-                        if(socket["readyState"] == 1){
-                            myResolve(socket);
-                            clearInterval(intervalConnectionSocket);
-                        }
-                    }, 100);                    
-                });
-
-                var data = {
-                    nome: nomeLobby,
-                    userType: "0"
-                };
-
-                myPromise.then(
-                    function(value) {value.send(JSON.stringify(data));},
-                );
-            }
-            
 
             setInterval(statusButtons, 1000);
             function statusButtons(){
@@ -73,12 +72,15 @@
                 
                 var response = JSON.parse(request.responseText);
 
+                console.log(response)
+
                 for(i=0; i<4; i++){
                     if(response[i]["status"] == "0"){
                         document.getElementById("lobby-"+(i+1)).style.background = "#95a5a6";
                         document.getElementById("lobby-"+(i+1)).setAttribute("disabled", "");
                         document.getElementById("lobby-"+(i+1)).innerHTML = "Indisponível";
                     } else if (response[i]["status"] == "2"){
+
                         document.getElementById("lobby-"+(i+1)).style.background = "#e74c3c";
                         document.getElementById("lobby-"+(i+1)).setAttribute("disabled", "");
                         document.getElementById("lobby-"+(i+1)).innerHTML = "Ocupado";
