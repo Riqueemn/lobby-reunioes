@@ -1,7 +1,7 @@
 <?php
-    include("../api_2/conexao.php");
-    include("../api_2/sessao.php");
-    include("../api_2/lobby.php");
+    include("../api/conexao.php");
+    include("../api/sessao.php");
+    include("../api/lobby.php");
 
 
 
@@ -43,8 +43,8 @@
 
         <script type="text/javascript">
 
-            var enderecoServerSocket = "192.168.0.183";
-            var enderecoPlataforma = "192.168.0.183";
+            var enderecoServerSocket = "10.85.7.216";
+            var enderecoPlataforma = "10.85.7.216";
 
             var htmlMeet = "<div id='meet' />";
             var divMeet = document.getElementById("div-meet");
@@ -120,9 +120,6 @@
             );
             
             
-
-            //setInterval(notification, 1000);
-
             function notification2(data){
                 not.innerHTML = "";
                 console.log(data);

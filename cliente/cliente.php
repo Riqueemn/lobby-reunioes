@@ -1,24 +1,13 @@
 <?php
 
-    include("../api_2/conexao.php");
-    include("../api_2/lobby.php");
-    include("../api_2/sessao.php");
+    include("../api/conexao.php");
+    include("../api/lobby.php");
 
     session_start();
     ob_start();
 
-    $sessao = new Sessao();
     $lobbys = new Lobby();    
-
-    $nomeLobby = $_SESSION['lobby'];
-
-    $obj = $lobbys->LobbyStatus($mysqli);
-    $obj2 = $lobbys->lobbyStatusEspecifico($mysqli, $nomeLobby);
-    $cont = $sessao->SuporteLogados($mysqli);
-
-    if(isset($_SESSION['lobby']) && $obj2["sala"] != "1" && $cont != 0){
-        //$lobbys->LiberarLobby($mysqli, "lobby_".$_SESSION['lobby']);
-    }
+    
 
     unset($_SESSION['lobby']);
 
@@ -27,8 +16,7 @@
 
 
     $dados = filter_input_array(INPUT_POST, FILTER_DEFAULT);
-    //var_dump($dados["lobby"]);
-    if($dados["lobby"] != null){
+    if(!empty($dados["lobby"])){
         $l = $lobbys->lobbyStatusEspecifico($mysqli, $dados["lobby"]);
         if($l["status"] == "1"){
             $_SESSION['lobby'] = $dados["lobby"];
@@ -52,10 +40,10 @@
         
         <div class="lobby" >
             <form method="POST" action="">
-                <button type="submit" name="lobby" id="lobby-1" class="buttons" value="lobby_1">Indisponível</button>
-                <button type="submit" name="lobby" id="lobby-2" class="buttons" value="lobby_2">Indisponível</button>
-                <button type="submit" name="lobby" id="lobby-3" class="buttons" value="lobby_3">Indisponível</button>
-                <button type="submit" name="lobby" id="lobby-4" class="buttons" value="lobby_4">Indisponível</button>
+                <button type="submit" name="lobby" disabled id="lobby-1" class="buttons" value="lobby_1">Indisponível</button>
+                <button type="submit" name="lobby" disabled id="lobby-2" class="buttons" value="lobby_2">Indisponível</button>
+                <button type="submit" name="lobby" disabled id="lobby-3" class="buttons" value="lobby_3">Indisponível</button>
+                <button type="submit" name="lobby" disabled id="lobby-4" class="buttons" value="lobby_4">Indisponível</button>
             </form>
         </div>
 
@@ -66,7 +54,7 @@
             setInterval(statusButtons, 1000);
             function statusButtons(){
                 let request = new XMLHttpRequest()
-                request.open("GET", "http://192.168.0.183/lobby-reunioes/api_2/json_lobbys.php", false);
+                request.open("GET", "http://10.85.7.216/lobby-reunioes/api/json_lobbys.php", false);
                 request.setRequestHeader("Content-type", "application/json");
                 request.send();
                 

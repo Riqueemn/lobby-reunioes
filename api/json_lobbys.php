@@ -1,7 +1,7 @@
 <?php
 
-include("../api_2/conexao.php");
-include("../api_2/lobby.php");
+include("../api/conexao.php");
+include("../api/lobby.php");
 
 $lobbys = new Lobby();    
 

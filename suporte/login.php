@@ -1,7 +1,7 @@
 <?php
-    include("../api_2/conexao.php");
-    include("../api_2/sessao.php");
-    include("../api_2/lobby.php");
+    include("../api/conexao.php");
+    include("../api/sessao.php");
+    include("../api/lobby.php");
 
 
     session_start();
