@@ -43,6 +43,9 @@
 
         <script type="text/javascript">
 
+            var enderecoServerSocket = "192.168.0.183";
+            var enderecoPlataforma = "192.168.0.183";
+
             var htmlMeet = "<div id='meet' />";
             var divMeet = document.getElementById("div-meet");
 
@@ -56,9 +59,10 @@
             var roomName = '';
             var jwt = '';
             var lobbyAtual = '';
+
             
             let myPromise = new Promise(function(myResolve, myReject) {
-                    let socket = new WebSocket('ws://localhost:9990/meet');
+                    let socket = new WebSocket('ws://'+enderecoServerSocket+':9990/meet');
 
                     socket.addEventListener('error', function (event) {
                     console.log('WebSocket error: ', event["target"]["readyState"]);
@@ -69,10 +73,10 @@
                         console.log("Conectando...");
                     }else if(event["target"]["readyState"] == 3){
                         console.log("Servidor Caiu");
-                        window.location.href = "http://192.168.0.183/lobby-reunioes/suporte/login.php";
+                        //window.location.href = "http://"+enderecoPlataforma+"/lobby-reunioes/suporte/login.php";
                     }else if(event["target"]["readyState"] == 2){
                         console.log("Servidor está em processo de fechamento");
-                        window.location.href = "http://192.168.0.183/lobby-reunioes/suporte/login.php";
+                        window.location.href = "http://"+enderecoPlataforma+"/lobby-reunioes/suporte/login.php";
                     }
                     });
 
@@ -114,7 +118,7 @@
                     });
                 },
             );
-
+            
             
 
             //setInterval(notification, 1000);
@@ -165,29 +169,8 @@
                 };
                 api = new JitsiMeetExternalAPI(domain, options);
 
-                var listener = function(event){
-                    api.executeCommand('kickParticipant',"google-oauth2|106448277433076534193");
-                    var data = {
-                        lobby: lobbyAtual,
-                        cmd: "sair-sala-suporte"
-                    };
-
-                    conn.send(JSON.stringify(data));
-
-                    document.getElementById("meet").remove();
-                    not.removeAttribute("hidden");
-
-                    if(event.role === 'moderator'){
-                        //api.executeCommand('closeBreakoutRoom', "vpaas-magic-cookie-e3d18e07c6b84703a43feca37bc14da3/lobby_1");
-
-                        api.executeCommand('kickParticipant',"google-oauth2|106448277433076534193");
-                    }
-                    
-
-                    //confirm("Moderador saiu");
-                }
         
-                //api.addListener("videoConferenceLeft", listener);
+                
                 api.addListener("videoConferenceLeft", () => {
                     api.executeCommand('closeBreakoutRoom', "vpaas-magic-cookie-e3d18e07c6b84703a43feca37bc14da3/lobby_1");
                     api.executeCommand('closeBreakoutRoom', "lobby_1");
