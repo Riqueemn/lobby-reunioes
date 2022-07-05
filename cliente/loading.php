@@ -54,6 +54,9 @@
 
         <script>
 
+            var enderecoServerSocket = "192.168.0.183";
+            var enderecoPlataforma = "192.168.0.183";
+
             var load = document.getElementById("loading");
             const nome = "<?php echo $_SESSION['lobby'] ?>";
 
@@ -62,7 +65,7 @@
             
             var con;
             let myPromise = new Promise(function(myResolve, myReject) {
-                let socket = new WebSocket('ws://localhost:9990/meet');
+                let socket = new WebSocket('ws://'+enderecoServerSocket+':9990/meet');
                 
                 socket.addEventListener('error', function (event) {
                     console.log('WebSocket error: ', event["target"]["readyState"]);
@@ -74,12 +77,12 @@
 
                     if(event["target"]["readyState"] == 3){
                         console.log("Servidor Caiu");
-                        window.location.href = "http://192.168.0.183/lobby-reunioes/cliente/cliente.php";
+                        window.location.href = "http://"+enderecoPlataforma+"/lobby-reunioes/cliente/cliente.php";
                     }
 
                     if(event["target"]["readyState"] == 2){
                         console.log("Servidor está em processo de fechamento");
-                        window.location.href = "http://192.168.0.183/lobby-reunioes/cliente/cliente.php";
+                        window.location.href = "http://"+enderecoPlataforma+"/lobby-reunioes/cliente/cliente.php";
                     }
                 });
 
@@ -117,7 +120,7 @@
                             meet();
                         }else if(data[0] == "lobby-sair"){
                             console.log("Sem suporte para atender");
-                            window.location.href = "http://192.168.0.183/lobby-reunioes/cliente/cliente.php";
+                            window.location.href = "http://"+enderecoPlataforma+"/lobby-reunioes/cliente/cliente.php";
                         }else{
                             console.log("Lobby que ficou indisponivel: " + data);
                         }
@@ -156,7 +159,7 @@
 
             function statusSala(){
                 let request = new XMLHttpRequest()
-                request.open("GET", "http://192.168.0.183/lobby-reunioes/api_2/json_lobbys.php", false);
+                request.open("GET", "http://"+enderecoPlataforma+"/lobby-reunioes/api_2/json_lobbys.php", false);
                 request.setRequestHeader("Content-type", "application/json");
                 request.send();
                 
